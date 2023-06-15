@@ -1,5 +1,6 @@
 import { LibraryImplementation } from "../pages/Base";
 import Plot from "react-plotly.js";
+import Plotly from "plotly.js";
 import stackedBarData from "../data/stackedBar.json";
 import line1Data from "../data/line1.json";
 import line2Data from "../data/line2.json";
@@ -97,29 +98,41 @@ const plotly: LibraryImplementation = {
   getStackedBar: function (): JSX.Element {
     return (
       <Plot
-        data={getBarTraces()}
+        data={getBarTraces() as Plotly.Data[]}
         layout={{ barmode: "stack", width: 800, height: 600 }}
       />
     );
   },
   getLine1: function (): JSX.Element {
     return (
-      <Plot data={getLine1Traces()} layout={{ width: 800, height: 600 }} />
+      <Plot
+        data={getLine1Traces() as Plotly.Data[]}
+        layout={{ width: 800, height: 600 }}
+      />
     );
   },
   getLine2: function (): JSX.Element {
     return (
-      <Plot data={getLine2Traces()} layout={{ width: 800, height: 600 }} />
+      <Plot
+        data={getLine2Traces() as Plotly.Data[]}
+        layout={{ width: 800, height: 600 }}
+      />
     );
   },
   getHeatmap: function (): JSX.Element {
     return (
-      <Plot data={getHeatmapTraces()} layout={{ width: 800, height: 600 }} />
+      <Plot
+        data={getHeatmapTraces() as Plotly.Data[]}
+        layout={{ width: 800, height: 600 }}
+      />
     );
   },
   getSankey: function (): JSX.Element {
     return (
-      <Plot data={getSankeyTraces()} layout={{ width: 800, height: 600 }} />
+      <Plot
+        data={getSankeyTraces() as Plotly.Data[]}
+        layout={{ width: 800, height: 600 }}
+      />
     );
   },
   getJoyPlot: function (): JSX.Element {
@@ -132,7 +145,10 @@ const plotly: LibraryImplementation = {
   },
   getContour: function (): JSX.Element {
     return (
-      <Plot data={getContourTraces()} layout={{ width: 800, height: 600 }} />
+      <Plot
+        data={getContourTraces() as Plotly.Data[]}
+        layout={{ width: 800, height: 600 }}
+      />
     );
   },
 };
