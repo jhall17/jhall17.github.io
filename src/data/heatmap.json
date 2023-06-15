@@ -1,0 +1,9 @@
+{
+  "x": ["Monday", "Tuesday", "Wednesday"],
+  "y": ["Morning", "Afternoon", "Evening"],
+  "z": [
+    [5, 7, 10],
+    [3, 4, 5],
+    [1, 4, 8]
+  ]
+}
