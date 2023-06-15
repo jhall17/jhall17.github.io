@@ -4,8 +4,8 @@ import stackedBarData from "../data/stackedBar.json";
 import line1Data from "../data/line1.json";
 import line2Data from "../data/line2.json";
 import heatmapData from "../data/heatmap.json";
-import sankeyData from "../data/sankey.json";
-import contourData from "../data/contour.json";
+// import sankeyData from "../data/sankey.json";
+// import contourData from "../data/contour.json";
 
 const getLine2Series = () => {
   const series = Object.entries(line2Data).map(([name, data]) => {
