@@ -85,14 +85,43 @@ const plotly: LibraryImplementation = {
     review: {
       rating: 0,
       description:
-        "very detailed, great examples, mostly comprehensive. most googling tends to turn up answers in python, though.",
+        "very detailed, great examples, mostly comprehensive. most googling tends to turn up answers in python, so you sometimes have to translate if you can't find a js example.",
     },
     url: "https://plotly.com/javascript/",
   },
   reviews: {
-    ["Bonus"]: {
+    ["React Compatibility"]: {
       rating: 5,
-      description: "good built in interaction, download plot, zoom, pan, etc",
+      description: "official react support",
+    },
+    ["Chart Versatility"]: {
+      rating: 5,
+      description:
+        "built in support for every chart on our list and more. serves as a wrapper on d3, so extremely flexible",
+    },
+    ["Learning Curve"]: {
+      rating: 5,
+      description:
+        "very easy to use, can start very basic and add in more advanced features as you go",
+    },
+    ["Data Export"]: {
+      rating: 1,
+      description: "will export chart images, but not data",
+    },
+    ["Customizability"]: {
+      rating: 5,
+      description:
+        "could create almost any visual imaginable with this library",
+    },
+    ["Accessibility"]: {
+      rating: 0,
+      description:
+        "no additional accessibility features, svg may make implementing our own difficult",
+    },
+    ["Bonus"]: {
+      rating: 3,
+      description:
+        "good built in interaction, zoom, pan, etc, and uses d3, so compatible with Mandy's library",
     },
   },
   getStackedBar: function (): JSX.Element {

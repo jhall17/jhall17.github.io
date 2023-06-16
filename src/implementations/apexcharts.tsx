@@ -30,16 +30,44 @@ const getHeatmapSeries = () => {
 const apexcharts: LibraryImplementation = {
   documentation: {
     review: {
-      rating: 0,
+      rating: 3,
       description:
-        "bad redirects, missing lots of info, hard to read, not a lot of documentation for react-specific implementations. unhelpful error messages. great examples page that serves as documentation",
+        "bad redirects, missing info, ok react-specific docs. unhelpful error messages. great react examples page that serves as documentation and makes up for the lack of docs",
     },
-    url: "https://plotly.com/javascript/",
+    url: "https://apexcharts.com/react-chart-demos/",
   },
   reviews: {
-    ["Bonus"]: {
+    ["React Compatibility"]: {
       rating: 5,
-      description: "good built in interaction, animations",
+      description: "official react support",
+    },
+    ["Chart Versatility"]: {
+      rating: 3,
+      description:
+        "lots of charts, but not all of them. not the easiest to adapt",
+    },
+    ["Learning Curve"]: {
+      rating: 4,
+      description:
+        "very easy to use, can start very basic and add in more advanced features as you go, but it can be hard to find what options are available and config is verbose",
+    },
+    ["Data Export"]: {
+      rating: 5,
+      description: "built in default export option for svg, png, and csv",
+    },
+    ["Customizability"]: {
+      rating: 3,
+      description:
+        "has very nice looking defaults, but that means creating custom charts requires a lot of overriding. very doable, but tedious.",
+    },
+    ["Accessibility"]: {
+      rating: 0,
+      description:
+        "no additional accessibility features, svg may make implementing our own difficult",
+    },
+    ["Bonus"]: {
+      rating: 2,
+      description: "good built in interaction, built in easy-to-use animations",
     },
   },
   getStackedBar: function (): JSX.Element {

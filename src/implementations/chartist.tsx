@@ -6,21 +6,16 @@ import { LibraryImplementation } from "../pages/Base";
 // import sankeyData from "../data/sankey.json";
 // import contourData from "../data/contour.json";
 
-const template: LibraryImplementation = {
+const chartist: LibraryImplementation = {
   documentation: {
     review: {
       rating: 0,
       description:
-        "very detailed, great examples, mostly comprehensive. most googling tends to turn up answers in python, though.",
+        "chartist does not have current react support and would require a wrapper, not worth considering at this time",
     },
-    url: "https://plotly.com/javascript/",
+    url: "https://github.com/chartist-js/chartist#readme",
   },
-  reviews: {
-    ["Bonus"]: {
-      rating: 5,
-      description: "good built in interaction, download plot, zoom, pan, etc",
-    },
-  },
+  reviews: {},
   getStackedBar: function (): JSX.Element {
     return <p>not yet implemented</p>;
   },
@@ -44,4 +39,4 @@ const template: LibraryImplementation = {
   },
 };
 
-export default template;
+export default chartist;

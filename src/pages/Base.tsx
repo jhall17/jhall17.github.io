@@ -45,19 +45,27 @@ export interface LibraryImplementation {
   getContour: () => JSX.Element;
 }
 
-const ReviewDisplay = ({ review }: { review: Review }) => {
+const ReviewDisplay = ({
+  review,
+  max = 5,
+}: {
+  review: Review;
+  max?: number;
+}) => {
+  const rating = `Rating - ${review.rating}/${max}`;
   return (
     <>
-      <h3>Rating</h3>
-      <p>{review.rating / 5}</p>
-      <h3>Description</h3>
+      <h3>{rating}</h3>
       <p>{review.description}</p>
     </>
   );
 };
 
 const Base = ({ charts }: BaseProps) => {
+  let totalRating = 0;
+  const maxRating = Object.keys(charts.reviews).length * 5 + 5;
   const reviews = Object.entries(charts.reviews).map(([reviewName, review]) => {
+    totalRating += review.rating;
     return (
       <>
         <h2>{reviewName}</h2>
@@ -66,9 +74,21 @@ const Base = ({ charts }: BaseProps) => {
     );
   });
 
+  totalRating += charts.documentation.review.rating;
+
+  reviews.push(
+    <>
+      <h2>Total</h2>
+      <ReviewDisplay
+        review={{ rating: totalRating, description: "" }}
+        max={maxRating}
+      />
+    </>
+  );
+
   return (
     <>
-      <h2>Charts</h2>
+      <h1>Charts</h1>
       <h3>Stacked Bar</h3>
       {charts.getStackedBar()}
       <h3>Line 1</h3>
@@ -84,6 +104,7 @@ const Base = ({ charts }: BaseProps) => {
       <h3>Contour</h3>
       {charts.getContour()}
 
+      <h1>Ratings (0-5, 5 is always best)</h1>
       <a href={charts.documentation.url}>
         <h2>Documentation</h2>
       </a>

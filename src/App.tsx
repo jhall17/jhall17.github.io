@@ -2,8 +2,11 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Summary from "./pages/Summary";
 import plotly from "./implementations/plotly";
 import apexcharts from "./implementations/apexcharts";
+import visx from "./implementations/visx";
+import highcharts from "./implementations/highcharts";
+import chartist from "./implementations/chartist";
+import c3js from "./implementations/c3js";
 import Base from "./pages/Base";
-import template from "./implementations/template";
 
 function App() {
   const router = createBrowserRouter([
@@ -22,19 +25,19 @@ function App() {
         },
         {
           path: "/visx",
-          element: <Base charts={template} />,
+          element: <Base charts={visx} />,
         },
         {
           path: "/chartist",
-          element: <Base charts={template} />,
+          element: <Base charts={chartist} />,
         },
         {
           path: "/c3js",
-          element: <Base charts={template} />,
+          element: <Base charts={c3js} />,
         },
         {
           path: "/highcharts",
-          element: <Base charts={template} />,
+          element: <Base charts={highcharts} />,
         },
       ],
     },
