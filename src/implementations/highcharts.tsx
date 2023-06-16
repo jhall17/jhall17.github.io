@@ -152,17 +152,16 @@ const highcharts: LibraryImplementation = {
   getSankey: function (): JSX.Element {
     HighchartsSankey(Highcharts);
     const { label, link } = sankeyData;
-    const data = [];
+    const data: (string | number)[][] = [];
     link.source.forEach((source, i) => {
       data.push([label[source], label[link.target[i]], link.value[i]]);
     });
 
     const options: Highcharts.Options = {
-      type: "sankey",
       series: [
         {
           keys: ["from", "to", "weight"],
-          data: data as Highcharts.SeriesSankeyOptions[],
+          data: data,
           type: "sankey",
         },
       ],
