@@ -6,6 +6,8 @@ import visx from "./implementations/visx";
 import highcharts from "./implementations/highcharts";
 import chartist from "./implementations/chartist";
 import c3js from "./implementations/c3js";
+import chartjs from "./implementations/chartjs";
+import observableplot from "./implementations/observableplot";
 import Base from "./pages/Base";
 
 function App() {
@@ -18,7 +20,6 @@ function App() {
           path: "/plotly",
           element: <Base charts={plotly} />,
         },
-
         {
           path: "/apexcharts",
           element: <Base charts={apexcharts} />,
@@ -38,6 +39,14 @@ function App() {
         {
           path: "/highcharts",
           element: <Base charts={highcharts} />,
+        },
+        {
+          path: "/chartjs",
+          element: <Base charts={chartjs} />,
+        },
+        {
+          path: "/observableplot",
+          element: <Base charts={observableplot} />,
         },
       ],
     },

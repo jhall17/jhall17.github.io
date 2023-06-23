@@ -12,6 +12,13 @@ const Summary = () => {
           <Link to="/plotly">Plotly</Link>
         </li>
         <li>
+          <Link to="/chartjs">ChartJS</Link>
+        </li>
+        <li>
+          <Link to="ObservablePlot">Observable Plot</Link>
+        </li>
+        {/* 
+        <li>
           <Link to="/apexcharts">ApexCharts</Link>
         </li>
         <li>
@@ -26,6 +33,7 @@ const Summary = () => {
         <li>
           <Link to="/c3js">C3.js - no charts</Link>
         </li>
+        */}
       </ul>
       <Outlet />
     </>

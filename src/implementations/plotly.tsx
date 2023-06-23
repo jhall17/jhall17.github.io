@@ -83,7 +83,7 @@ const getContourTraces = () => {
 const plotly: LibraryImplementation = {
   documentation: {
     review: {
-      rating: 0,
+      rating: 4,
       description:
         "very detailed, great examples, mostly comprehensive. most googling tends to turn up answers in python, so you sometimes have to translate if you can't find a js example.",
     },
