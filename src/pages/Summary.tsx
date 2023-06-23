@@ -17,13 +17,13 @@ const Summary = () => {
         <li>
           <Link to="ObservablePlot">Observable Plot</Link>
         </li>
-        {/* 
         <li>
           <Link to="/apexcharts">ApexCharts</Link>
         </li>
         <li>
           <Link to="/highcharts">HighCharts</Link>
         </li>
+        {/* 
         <li>
           <Link to="/visx">VisX - no charts</Link>
         </li>
