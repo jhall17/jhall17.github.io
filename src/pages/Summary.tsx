@@ -23,6 +23,9 @@ const Summary = () => {
         <li>
           <Link to="/highcharts">HighCharts</Link>
         </li>
+        <li>
+          <Link to="/benchmark">Benchmark</Link>
+        </li>
         {/* 
         <li>
           <Link to="/visx">VisX - no charts</Link>
