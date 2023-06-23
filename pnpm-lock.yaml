@@ -1,5 +1,9 @@
 lockfileVersion: '6.0'
 
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
+
 dependencies:
   '@observablehq/plot':
     specifier: ^0.6.8
@@ -25,6 +29,9 @@ dependencies:
   chartist:
     specifier: ^1.3.0
     version: 1.3.0
+  chartjs-chart-sankey:
+    specifier: ^0.12.0
+    version: 0.12.0(chart.js@4.3.0)
   d3:
     specifier: ^7.8.5
     version: 7.8.5
@@ -999,6 +1006,14 @@ packages:
   /chartist@1.3.0:
     resolution: {integrity: sha512-M3ckI3ua7EHt08WLZvdi3QXn5g+in27qU6TxjI5bpriS6QwIZlWtisyUhFbpGclW546SlT3SL9oq0vFFDiAo6g==}
     engines: {node: '>=14'}
+    dev: false
+
+  /chartjs-chart-sankey@0.12.0(chart.js@4.3.0):
+    resolution: {integrity: sha512-2f0YfDWNTTDqztVALlD2YMdSbpmjxdxHpcpKgBi9cUq3IPWBvHb58h4gIa7GjsYVjMLwX6gusDXgxlh9PMKkkA==}
+    peerDependencies:
+      chart.js: '>=3.3.0'
+    dependencies:
+      chart.js: 4.3.0
     dev: false
 
   /clamp@1.0.1:
@@ -3687,7 +3702,3 @@ packages:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
     engines: {node: '>=10'}
     dev: true
-
-settings:
-  autoInstallPeers: true
-  excludeLinksFromLockfile: false
