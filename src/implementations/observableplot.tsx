@@ -8,7 +8,7 @@ import line2Data from "../data/line2.json";
 import heatmapData from "../data/heatmap.json";
 // import sankeyData from "../data/sankey.json";
 import joyplotData from "../data/joyplot.json";
-import contourData from "../data/contour.json";
+// import contourData from "../data/contour.json";
 
 const ObservablePlot: LibraryImplementation = {
   documentation: {
@@ -20,7 +20,7 @@ const ObservablePlot: LibraryImplementation = {
   },
   reviews: {},
   getStackedBar: function (): JSX.Element {
-    const ref = useRef();
+    const ref = useRef<HTMLDivElement>();
 
     const data: any[] = [];
     stackedBarData.categories.forEach((categoryName, i) => {
@@ -39,12 +39,13 @@ const ObservablePlot: LibraryImplementation = {
       });
 
       ref.current.appendChild(chart);
+
       return () => chart.remove();
     });
     return <div ref={ref} />;
   },
   getLine1: function (): JSX.Element {
-    const ref = useRef();
+    const ref = useRef<HTMLDivElement>();
 
     const data: any[] = [];
     line1Data.x.forEach((x, i) => {
@@ -64,7 +65,7 @@ const ObservablePlot: LibraryImplementation = {
     return <div ref={ref} />;
   },
   getLine2: function (): JSX.Element {
-    const ref = useRef();
+    const ref = useRef<HTMLDivElement>();
 
     const data: any[] = [];
     Object.entries(line2Data).forEach(([name, lineData]) => {
@@ -88,7 +89,7 @@ const ObservablePlot: LibraryImplementation = {
     return <div ref={ref} />;
   },
   getHeatmap: function (): JSX.Element {
-    const ref = useRef();
+    const ref = useRef<HTMLDivElement>();
 
     const data: any[] = [];
     heatmapData.x.forEach((x, i) => {
@@ -120,7 +121,7 @@ const ObservablePlot: LibraryImplementation = {
     return <p>sankey is doable but tedious, i will come back if i have time</p>;
   },
   getJoyPlot: function (): JSX.Element {
-    const ref = useRef();
+    const ref = useRef<HTMLDivElement>();
 
     useEffect(() => {
       const chart = Plot.plot({

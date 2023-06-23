@@ -13,9 +13,9 @@ import { SankeyController, Flow } from "chartjs-chart-sankey";
 import stackedBarData from "../data/stackedBar.json";
 import line1Data from "../data/line1.json";
 import line2Data from "../data/line2.json";
-import heatmapData from "../data/heatmap.json";
+// import heatmapData from "../data/heatmap.json";
 import sankeyData from "../data/sankey.json";
-import contourData from "../data/contour.json";
+// import contourData from "../data/contour.json";
 
 const ChartJSImplementation: LibraryImplementation = {
   documentation: {
