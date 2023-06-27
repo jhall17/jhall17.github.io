@@ -1,19 +1,93 @@
 import { Comparison } from "../implementations/benchmark";
 import { parse } from "csv-parse";
+import hourMaxVoltage from "../data/alvinHourMaxVoltage.json";
+import dayMaxVoltage from "../data/alvinDayMaxVoltage.json";
+import monthMaxVoltage from "../data/alvinMonthMaxVoltage.json";
+import { useEffect, useRef, useState } from "react";
 
 type BenchmarkProps = {
   comparisons: Comparison[];
 };
 
-const Benchmark = ({ comparisons }: BenchmarkProps) => {
-  const getRunButtons = () =>
-    comparisons.map((comparison) => {
-      return <button key={comparison.name}>{comparison.name}</button>;
-    });
+const dataMap: { [key: string]: any } = {
+  hour: hourMaxVoltage,
+  day: dayMaxVoltage,
+  month: monthMaxVoltage,
+};
 
-  const lineGraphs = comparisons.map((comparison) => {
-    return comparison.getLineGraph?.();
-  });
+const Benchmark = ({ comparisons }: BenchmarkProps) => {
+  const [rawData, setRawData] = useState<string>("hour");
+  const [selectedComparisons, setSelectedComparisons] = useState<string[]>([]);
+  const [lineGraphs, setLineGraphs] = useState<JSX.Element[]>([]);
+
+  const observableRef = useRef<HTMLDivElement>();
+
+  const onCheck = (value: string) => {
+    if (selectedComparisons.includes(value)) {
+      setSelectedComparisons(
+        selectedComparisons.filter((val) => val !== value)
+      );
+      return;
+    }
+
+    setSelectedComparisons([...selectedComparisons, value]);
+  };
+
+  const getComparisonCheckboxes = () => {
+    return comparisons.map((comparison) => {
+      return (
+        <>
+          <input
+            type="checkbox"
+            id={comparison.name}
+            name={comparison.name}
+            value={comparison.name}
+            onChange={() => onCheck(comparison.name)}
+          />
+          <label htmlFor={comparison.name}> {comparison.name}</label>
+        </>
+      );
+    });
+  };
+
+  const getDataRadio = () => {
+    return (
+      <div onChange={(e) => setRawData(e.target.value)}>
+        {Object.keys(dataMap).map((key) => {
+          return (
+            <>
+              <input
+                type="radio"
+                id={key}
+                name="data"
+                value={key}
+                checked={rawData === key}
+              />
+              <label htmlFor={key}>{key}</label>
+            </>
+          );
+        })}
+        ;
+      </div>
+    );
+  };
+
+  useEffect(() => {
+    const lineGraphs = comparisons.map((comparison) => {
+      if (selectedComparisons.includes(comparison.name)) {
+        console.log(comparison.name);
+        return (
+          <comparison.getLineGraph
+            rawData={dataMap[rawData]}
+            observableRef={
+              comparison.name === "Observable Plot" ? observableRef : undefined
+            }
+          />
+        );
+      }
+    });
+    setLineGraphs(lineGraphs as JSX.Element[]);
+  }, [comparisons, selectedComparisons, rawData]);
 
   return (
     <>
@@ -21,7 +95,24 @@ const Benchmark = ({ comparisons }: BenchmarkProps) => {
         This benchmark compares the top 3 choices from the base comparison.
         These are plotly.js, ChartJS, and Observable Plot
       </h2>
-      {getRunButtons()}
+      {getDataRadio()}
+      {getComparisonCheckboxes()}
+      <p>
+        Expected data sizes:
+        <br />
+        - Month Voltage: 1,900,800
+        <br />
+        - Month x4: 7,603,200
+        <br />
+        - Day Voltage: 63,360
+        <br />
+        - Day x4: 253,440
+        <br />
+        - Hour: 2,640
+        <br />
+        - Hour x4: 10,560
+        <br />
+      </p>
       <h3>Line Graph</h3>
       <blockquote>
         "I would like you to try testing a line graph that puts all the max cell

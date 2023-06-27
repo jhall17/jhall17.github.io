@@ -7,42 +7,50 @@ import {
   LineElement,
   Colors,
 } from "chart.js";
+import * as Plot from "@observablehq/plot";
 import { Line } from "react-chartjs-2";
+
+type LineGraphProps = {
+  rawData: any;
+  observableRef?: any;
+};
 
 export type Comparison = {
   name: string;
-  getLineGraph?: () => JSX.Element;
+  getLineGraph?: React.FunctionComponent<LineGraphProps>;
   getUpperBounds?: () => JSX.Element;
   getUpperBoundsContinued?: () => JSX.Element;
   getCustomGraphs?: () => JSX.Element;
   getPdfs?: () => JSX.Element;
 };
 
-import rawData from "../data/alvinSeptemberMaxVoltage.json";
+import { useEffect, useRef } from "react";
 
-const getPlotlyLineTraces = () => {
+const getPlotlyLineTraces = (rawData) => {
   const x = rawData["x"];
   const lines = rawData["lines"];
-  const traces = Object.values(lines).map((line) => {
+  let count = 0;
+  const traces = Object.values(lines).map((line: number[]) => {
+    count += line.length;
     return {
       x,
       y: line,
       type: "scatter",
-      mode: "lines+markers",
+      mode: "lines",
     };
   });
   console.log("traces", traces);
+  console.log("datapoint count: ", count);
   return traces;
 };
 
 const Comparisons: Comparison[] = [
   {
     name: "plotly",
-    getLineGraph: () => {
-      return <p>a</p>;
+    getLineGraph: ({ rawData }) => {
       return (
         <PlotlyPlot
-          data={getPlotlyLineTraces() as Plotly.Data[]}
+          data={getPlotlyLineTraces(rawData) as Plotly.Data[]}
           layout={{ width: 800, height: 600 }}
         />
       );
@@ -50,7 +58,7 @@ const Comparisons: Comparison[] = [
   },
   {
     name: "ChartJS",
-    getLineGraph: () => {
+    getLineGraph: ({ rawData }) => {
       ChartJS.register(
         CategoryScale,
         LinearScale,
@@ -66,6 +74,11 @@ const Comparisons: Comparison[] = [
             },
           },
         },
+        elements: {
+          point: {
+            radius: 0,
+          },
+        },
       };
       const data = {
         labels: rawData["x"],
@@ -77,7 +90,32 @@ const Comparisons: Comparison[] = [
       return <Line data={data} options={options} />;
     },
   },
-  { name: "Observable Plot" },
+  {
+    name: "Observable Plot",
+    getLineGraph: ({ rawData, observableRef: ref }) => {
+      const data: any[] = [];
+      Object.entries(rawData["lines"]).forEach(([name, lineData]) => {
+        rawData["x"].forEach((x, i) => {
+          data.push({
+            name,
+            x,
+            y: lineData[i],
+          });
+        });
+      });
+
+      useEffect(() => {
+        const chart = Plot.plot({
+          marks: [Plot.line(data, { x: "x", y: "y", stroke: "name" })],
+        });
+
+        ref.current.appendChild(chart);
+        return () => chart.remove();
+      });
+
+      return <div ref={ref} />;
+    },
+  },
 ];
 
 export default Comparisons;

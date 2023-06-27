@@ -1,9 +1,8 @@
 import fs from "fs";
 import { parse } from "csv-parse";
 import bigJson from "big-json";
-const csvFilePath =
-  "/home/jg/FlexGen/git/chart-testing/src/data/Alvin_September_2022.csv";
-const outputFilePath = "/home/jg/FlexGen/git/chart-testing/src/data/alvin.json";
+const csvFilePath = "../Alvin_September_2022.csv";
+const outputFilePath = "../alvin.json";
 
 let i = 0;
 let labels;

@@ -1,8 +1,7 @@
 import fs from "fs";
 import bigJson from "big-json";
 
-const jsonFilePath =
-  "/home/jg/FlexGen/git/chart-testing/src/data/alvinSeptember.json";
+const jsonFilePath = "../alvinMonth.json";
 
 const readStream = fs.createReadStream(jsonFilePath);
 const parseStream = bigJson.createParseStream();
@@ -27,9 +26,7 @@ parseStream.on("data", (rawData) => {
   });
 
   console.log("beginning write");
-  const writeStream = fs.createWriteStream(
-    "/home/jg/FlexGen/git/chart-testing/src/data/alvinSeptemberMaxVoltage.json"
-  );
+  const writeStream = fs.createWriteStream("../alvinMonthMaxVoltage.json");
   const stringifyStream = bigJson.createStringifyStream({
     body: { x, lines: transformed },
   });

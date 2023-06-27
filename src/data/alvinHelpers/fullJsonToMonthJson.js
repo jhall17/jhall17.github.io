@@ -1,7 +1,7 @@
 import fs from "fs";
 import bigJson from "big-json";
 
-const jsonFilePath = "/home/jg/FlexGen/git/chart-testing/src/data/alvin.json";
+const jsonFilePath = "../alvin.json";
 
 const readStream = fs.createReadStream(jsonFilePath);
 const parseStream = bigJson.createParseStream();
@@ -10,7 +10,9 @@ parseStream.on("data", (rawData) => {
   const filteredData = Object.keys(rawData)
     .filter((time) => {
       const date = new Date(time);
-      if (date.getMonth() === 8) return true;
+      if (date.getUTCMonth() === 8) {
+        return true;
+      }
       return false;
     })
     .reduce((acc, time) => {
@@ -18,9 +20,7 @@ parseStream.on("data", (rawData) => {
     }, {});
 
   console.log("beginning write");
-  const writeStream = fs.createWriteStream(
-    "/home/jg/FlexGen/git/chart-testing/src/data/alvinSeptember.json"
-  );
+  const writeStream = fs.createWriteStream("../alvinMonth.json");
   const stringifyStream = bigJson.createStringifyStream({
     body: filteredData,
   });
