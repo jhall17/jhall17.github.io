@@ -18,18 +18,12 @@ export type Comparison = {
   getPdfs?: () => JSX.Element;
 };
 
-import rawData from "../data/alvinMaxVoltage.json";
-
-// const jsonFilePath = "src/data/alvinMaxVoltage.json";
-// const readStream = fs.createReadStream(jsonFilePath);
+import rawData from "../data/alvinSeptemberMaxVoltage.json";
 
 const getPlotlyLineTraces = () => {
   const x = rawData["x"];
-  console.log("got x");
   const lines = rawData["lines"];
-  console.log("got lines");
   const traces = Object.values(lines).map((line) => {
-    console.log("line");
     return {
       x,
       y: line,
@@ -37,7 +31,7 @@ const getPlotlyLineTraces = () => {
       mode: "lines+markers",
     };
   });
-  console.log("returning traces");
+  console.log("traces", traces);
   return traces;
 };
 
@@ -45,13 +39,12 @@ const Comparisons: Comparison[] = [
   {
     name: "plotly",
     getLineGraph: () => {
-      console.log(getPlotlyLineTraces());
+      return <p>a</p>;
       return (
-        <p>graph</p>
-        // <PlotlyPlot
-        //   data={getPlotlyLineTraces() as Plotly.Data[]}
-        //   layout={{ width: 800, height: 600 }}
-        // />
+        <PlotlyPlot
+          data={getPlotlyLineTraces() as Plotly.Data[]}
+          layout={{ width: 800, height: 600 }}
+        />
       );
     },
   },
@@ -65,6 +58,15 @@ const Comparisons: Comparison[] = [
         LineElement,
         Colors
       );
+      const options = {
+        scales: {
+          x: {
+            time: {
+              unit: "day",
+            },
+          },
+        },
+      };
       const data = {
         labels: rawData["x"],
         datasets: Object.entries(rawData["lines"]).map(([dataName, info]) => ({
@@ -72,7 +74,7 @@ const Comparisons: Comparison[] = [
           data: info,
         })),
       };
-      return <Line data={data} />;
+      return <Line data={data} options={options} />;
     },
   },
   { name: "Observable Plot" },
