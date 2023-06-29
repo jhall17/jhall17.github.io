@@ -98,7 +98,7 @@ const Benchmark = ({ comparisons }: BenchmarkProps) => {
       {getDataRadio()}
       {getComparisonCheckboxes()}
       <p>
-        Expected data sizes:
+        Data sizes:
         <br />
         - Month Voltage: 1,900,800
         <br />

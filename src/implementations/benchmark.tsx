@@ -79,6 +79,7 @@ const Comparisons: Comparison[] = [
             radius: 0,
           },
         },
+        animation: false,
       };
       const data = {
         labels: rawData["x"],
