@@ -24,6 +24,9 @@ const Summary = () => {
           <Link to="/highcharts">HighCharts</Link>
         </li>
         <li>
+          <Link to="/plotters-wasm">Plotters WASM</Link>
+        </li>
+        <li>
           <Link to="/benchmark">Benchmark</Link>
         </li>
         {/* 

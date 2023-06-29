@@ -11,6 +11,7 @@ import observableplot from "./implementations/observableplot";
 import Benchmark from "./pages/Benchmark";
 import Comparisons from "./implementations/benchmark";
 import Base from "./pages/Base";
+import PlottersWasm from "./implementations/plotters-wasm";
 
 function App() {
   const router = createBrowserRouter([
@@ -49,6 +50,10 @@ function App() {
         {
           path: "/observableplot",
           element: <Base charts={observableplot} />,
+        },
+        {
+          path: "/plotters-wasm",
+          element: <Base charts={PlottersWasm} />,
         },
         {
           path: "/benchmark",

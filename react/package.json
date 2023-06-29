@@ -32,12 +32,14 @@
     "highcharts-contour": "^1.10.1",
     "highcharts-react-official": "^3.2.0",
     "plotly.js": "^2.24.2",
+    "plotters": "file:../wasm/pkg",
     "react": "^18.2.0",
     "react-apexcharts": "^1.4.0",
     "react-chartjs-2": "^5.2.0",
     "react-dom": "^18.2.0",
     "react-plotly.js": "^2.6.0",
-    "react-router-dom": "^6.13.0"
+    "react-router-dom": "^6.13.0",
+    "vite-plugin-wasm": "^3.2.2"
   },
   "devDependencies": {
     "@types/react": "^18.0.37",
