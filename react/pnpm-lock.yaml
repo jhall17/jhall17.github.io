@@ -62,9 +62,6 @@ dependencies:
   plotly.js:
     specifier: ^2.24.2
     version: 2.24.2
-  plotters:
-    specifier: file:../wasm/pkg
-    version: file:../wasm/pkg
   react:
     specifier: ^18.2.0
     version: 18.2.0
@@ -86,6 +83,9 @@ dependencies:
   vite-plugin-wasm:
     specifier: ^3.2.2
     version: 3.2.2(vite@4.3.9)
+  wasm:
+    specifier: link:../wasm/pkg
+    version: link:../wasm/pkg
 
 devDependencies:
   '@types/react':
@@ -3964,8 +3964,3 @@ packages:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
     engines: {node: '>=10'}
     dev: true
-
-  file:../wasm/pkg:
-    resolution: {directory: ../wasm/pkg, type: directory}
-    name: wasm
-    dev: false

@@ -9,6 +9,7 @@ import {
 } from "chart.js";
 import * as Plot from "@observablehq/plot";
 import { Line } from "react-chartjs-2";
+import init, { Chart as WasmChart } from "wasm";
 
 type LineGraphProps = {
   rawData: any;
@@ -115,6 +116,16 @@ const Comparisons: Comparison[] = [
       });
 
       return <div ref={ref} />;
+    },
+  },
+  {
+    name: "Plotters WASM",
+    getLineGraph: ({ rawData }) => {
+      init().then(() => {
+        WasmChart.init();
+        WasmChart.benchmarkLine("canvas", rawData);
+      });
+      return <canvas width="1024px" height="768px" id="canvas"></canvas>;
     },
   },
 ];
