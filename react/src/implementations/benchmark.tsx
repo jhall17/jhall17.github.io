@@ -19,7 +19,7 @@ import {
 } from "scichart";
 
 type LineGraphProps = {
-  rawData: any;
+  rawData: RawData;
   observableRef?: any;
 };
 
@@ -33,9 +33,13 @@ export type Comparison = {
 };
 
 import { useEffect, useRef, useState } from "react";
-import { ChartOptions } from "highcharts";
 
-const getPlotlyLineTraces = (rawData) => {
+type RawData = {
+  x: number[];
+  lines: { [key: string]: number[] };
+};
+
+const getPlotlyLineTraces = (rawData: RawData) => {
   const x = rawData["x"];
   const lines = rawData["lines"];
   let count = 0;
