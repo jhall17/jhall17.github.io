@@ -12,6 +12,7 @@ import Benchmark from "./pages/Benchmark";
 import Comparisons from "./implementations/benchmark";
 import Base from "./pages/Base";
 import PlottersWasm from "./implementations/plotters-wasm";
+import SciChart from "./implementations/scichart";
 
 function App() {
   const router = createBrowserRouter([
@@ -54,6 +55,10 @@ function App() {
         {
           path: "/plotters-wasm",
           element: <Base charts={PlottersWasm} />,
+        },
+        {
+          path: "/scichart",
+          element: <Base charts={SciChart} />,
         },
         {
           path: "/benchmark",

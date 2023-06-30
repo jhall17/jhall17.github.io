@@ -10,6 +10,13 @@ import {
 import * as Plot from "@observablehq/plot";
 import { Line } from "react-chartjs-2";
 import init, { Chart as WasmChart } from "wasm";
+import {
+  SciChartSurface,
+  FastLineRenderableSeries,
+  XyDataSeries,
+  NumericAxis,
+  DateTimeNumericAxis,
+} from "scichart";
 
 type LineGraphProps = {
   rawData: any;
@@ -25,7 +32,7 @@ export type Comparison = {
   getPdfs?: () => JSX.Element;
 };
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ChartOptions } from "highcharts";
 
 const getPlotlyLineTraces = (rawData) => {
@@ -128,6 +135,50 @@ const Comparisons: Comparison[] = [
         WasmChart.benchmarkLine("canvas", rawData);
       });
       return <canvas width="1024px" height="768px" id="canvas"></canvas>;
+    },
+  },
+  {
+    name: "SciChart",
+    getLineGraph: ({ rawData }) => {
+      const [curSurface, setCurSurface] = useState<SciChartSurface>();
+      const DIV_ID = "scichart-div";
+
+      const draw = async () => {
+        const { sciChartSurface, wasmContext } = await SciChartSurface.create(
+          DIV_ID
+        );
+
+        const xAxis = new DateTimeNumericAxis(wasmContext);
+        const yAxis = new NumericAxis(wasmContext);
+
+        sciChartSurface.xAxes.add(xAxis);
+        sciChartSurface.yAxes.add(yAxis);
+
+        Object.entries(rawData.lines).forEach(([name, yVals]) => {
+          const dataSeries = new XyDataSeries(wasmContext, {
+            xValues: rawData.x.map((x) => new Date(x).getTime()),
+            yValues: yVals.map((y) => Number(y)),
+            dataSeriesName: name,
+          });
+          const lineSeries = new FastLineRenderableSeries(wasmContext, {
+            dataSeries,
+          });
+          sciChartSurface.renderableSeries.add(lineSeries);
+        });
+
+        return { sciChartSurface, wasmContext };
+      };
+
+      useEffect(() => {
+        (async () => {
+          const res = await draw();
+          setCurSurface(res.sciChartSurface);
+        })();
+
+        return () => curSurface?.delete();
+      }, []);
+
+      return <div id={DIV_ID} style={{ width: 800, height: 600 }} />;
     },
   },
 ];

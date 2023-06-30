@@ -94,7 +94,7 @@ const Base = ({ charts }: BaseProps) => {
       <h3>Line 1</h3>
       {charts.getLine1()}
       <h3>Line 2</h3>
-      {charts.getLine2()}
+      <charts.getLine2 />
       <h3>Heatmap</h3>
       {charts.getHeatmap()}
       <h3>Sankey</h3>
