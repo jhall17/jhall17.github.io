@@ -26,6 +26,7 @@ export type Comparison = {
 };
 
 import { useEffect, useRef } from "react";
+import { ChartOptions } from "highcharts";
 
 const getPlotlyLineTraces = (rawData) => {
   const x = rawData["x"];
@@ -89,6 +90,7 @@ const Comparisons: Comparison[] = [
           data: info,
         })),
       };
+      // @ts-ignore
       return <Line data={data} options={options} />;
     },
   },

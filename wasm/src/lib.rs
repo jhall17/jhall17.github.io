@@ -78,7 +78,7 @@ fn draw_benchmark_line(
         .margin(20u32)
         .x_label_area_size(30u32)
         .y_label_area_size(30u32)
-        .build_cartesian_2d(start_date..end_date, -4.0..4.0)?;
+        .build_cartesian_2d(start_date..end_date, 0.0..35.0)?;
 
     chart.configure_mesh().x_labels(10).y_labels(6).draw()?;
 

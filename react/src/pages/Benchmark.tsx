@@ -3,20 +3,38 @@ import { parse } from "csv-parse";
 import hourMaxVoltage from "../data/alvinHourMaxVoltage.json";
 import dayMaxVoltage from "../data/alvinDayMaxVoltage.json";
 import monthMaxVoltage from "../data/alvinMonthMaxVoltage.json";
+import hour4Signals from "../data/alvinHour4Signals.json";
+import day4Signals from "../data/alvinDay4Signals.json";
+import month4Signals from "../data/alvinMonth4Signals.json";
 import { useEffect, useRef, useState } from "react";
+
+enum SignalCount {
+  One = "ONE",
+  Four = "FOUR",
+}
 
 type BenchmarkProps = {
   comparisons: Comparison[];
 };
 
 const dataMap: { [key: string]: any } = {
-  hour: hourMaxVoltage,
-  day: dayMaxVoltage,
-  month: monthMaxVoltage,
+  hour: {
+    [SignalCount.One]: hourMaxVoltage,
+    [SignalCount.Four]: hour4Signals,
+  },
+  day: {
+    [SignalCount.One]: dayMaxVoltage,
+    [SignalCount.Four]: day4Signals,
+  },
+  month: {
+    [SignalCount.One]: monthMaxVoltage,
+    [SignalCount.Four]: month4Signals,
+  },
 };
 
 const Benchmark = ({ comparisons }: BenchmarkProps) => {
-  const [rawData, setRawData] = useState<string>("hour");
+  const [timeInterval, setTimeInterval] = useState<string>("hour");
+  const [signalCount, setSignalCount] = useState<SignalCount>(SignalCount.One);
   const [selectedComparisons, setSelectedComparisons] = useState<string[]>([]);
   const [lineGraphs, setLineGraphs] = useState<JSX.Element[]>([]);
 
@@ -50,9 +68,10 @@ const Benchmark = ({ comparisons }: BenchmarkProps) => {
     });
   };
 
-  const getDataRadio = () => {
+  const getTimeIntervalRadio = () => {
     return (
-      <div onChange={(e) => setRawData(e.target.value)}>
+      // @ts-ignore
+      <div onChange={(e) => setTimeInterval(e.target.value)}>
         {Object.keys(dataMap).map((key) => {
           return (
             <>
@@ -61,7 +80,7 @@ const Benchmark = ({ comparisons }: BenchmarkProps) => {
                 id={key}
                 name="data"
                 value={key}
-                checked={rawData === key}
+                checked={timeInterval === key}
               />
               <label htmlFor={key}>{key}</label>
             </>
@@ -72,13 +91,35 @@ const Benchmark = ({ comparisons }: BenchmarkProps) => {
     );
   };
 
+  const getSignalCountRadio = () => {
+    return (
+      // @ts-ignore
+      <div onChange={(e) => setSignalCount(SignalCount[e.target.value])}>
+        {Object.keys(SignalCount).map((key) => {
+          return (
+            <>
+              <input
+                type="radio"
+                id={key as string}
+                name="signalCount"
+                value={key}
+                checked={signalCount === SignalCount[key]}
+              />
+              <label htmlFor={key as string}>{key as string}</label>
+            </>
+          );
+        })}
+      </div>
+    );
+  };
+
   useEffect(() => {
     const lineGraphs = comparisons.map((comparison) => {
       if (selectedComparisons.includes(comparison.name)) {
         console.log(comparison.name);
         return (
           <comparison.getLineGraph
-            rawData={dataMap[rawData]}
+            rawData={dataMap[timeInterval][signalCount]}
             observableRef={
               comparison.name === "Observable Plot" ? observableRef : undefined
             }
@@ -87,7 +128,7 @@ const Benchmark = ({ comparisons }: BenchmarkProps) => {
       }
     });
     setLineGraphs(lineGraphs as JSX.Element[]);
-  }, [comparisons, selectedComparisons, rawData]);
+  }, [comparisons, selectedComparisons, timeInterval, signalCount]);
 
   return (
     <>
@@ -95,7 +136,8 @@ const Benchmark = ({ comparisons }: BenchmarkProps) => {
         This benchmark compares the top 3 choices from the base comparison.
         These are plotly.js, ChartJS, and Observable Plot
       </h2>
-      {getDataRadio()}
+      {getSignalCountRadio()}
+      {getTimeIntervalRadio()}
       {getComparisonCheckboxes()}
       <p>
         Data sizes:
