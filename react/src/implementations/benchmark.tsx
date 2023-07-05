@@ -16,7 +16,8 @@ import {
   XyDataSeries,
   NumericAxis,
   DateTimeNumericAxis,
-  RolloverModifier,
+  SciChartPerformanceOverlay,
+  EResamplingMode,
 } from "scichart";
 
 type LineGraphProps = {
@@ -162,19 +163,18 @@ const Comparisons: Comparison[] = [
         sciChartSurface.xAxes.add(xAxis);
         sciChartSurface.yAxes.add(yAxis);
 
-        const rolloverModifier = new RolloverModifier();
-        rolloverModifier.rolloverLineStroke = "SteelBlue";
-        rolloverModifier.showRolloverLine = true;
-        sciChartSurface.chartModifiers.add(rolloverModifier);
-
         Object.entries(rawData.lines).forEach(([name, yVals]) => {
           const dataSeries = new XyDataSeries(wasmContext, {
             xValues: rawData.x.map((x) => new Date(x).getTime()),
             yValues: yVals.map((y) => Number(y)),
             dataSeriesName: name,
+            dataIsSortedInX: true,
+            dataEvenlySpacedInX: true,
+            containsNaN: false,
           });
           const lineSeries = new FastLineRenderableSeries(wasmContext, {
             dataSeries,
+            resamplingMode: EResamplingMode.Auto,
           });
           sciChartSurface.renderableSeries.add(lineSeries);
         });
