@@ -13,7 +13,6 @@ import Comparisons from "./implementations/benchmark";
 import Base from "./pages/Base";
 import PlottersWasm from "./implementations/plotters-wasm";
 import SciChart from "./implementations/scichart";
-import Perspective from "./implementations/perspective";
 
 function App() {
   const router = createBrowserRouter([
