@@ -13,6 +13,7 @@ import Comparisons from "./implementations/benchmark";
 import Base from "./pages/Base";
 import PlottersWasm from "./implementations/plotters-wasm";
 import SciChart from "./implementations/scichart";
+import Perspective from "./implementations/perspective";
 
 function App() {
   const router = createBrowserRouter([
@@ -60,6 +61,10 @@ function App() {
           path: "/scichart",
           element: <Base charts={SciChart} />,
         },
+        // {
+        //   path: "/perspective",
+        //   element: <Base charts={Perspective} />,
+        // },
         {
           path: "/benchmark",
           element: <Benchmark comparisons={Comparisons} />,

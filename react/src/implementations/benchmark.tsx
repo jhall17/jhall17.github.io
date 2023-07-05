@@ -136,7 +136,7 @@ const Comparisons: Comparison[] = [
     getLineGraph: ({ rawData }) => {
       init().then(() => {
         WasmChart.init();
-        WasmChart.benchmarkLine("canvas", rawData);
+        WasmChart.benchmark_line("canvas", rawData);
       });
       return <canvas width="1024px" height="768px" id="canvas"></canvas>;
     },

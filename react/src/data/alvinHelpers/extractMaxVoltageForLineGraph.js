@@ -51,4 +51,6 @@ const extract = (inPath, outPath) => {
   readStream.pipe(parseStream);
 };
 
-filePaths.forEach(({ in: inPath, out: outPath }) => extract(inPath, outPath));
+Object.values(filePaths).forEach(({ in: inPath, out: outPath }) =>
+  extract(inPath, outPath)
+);
