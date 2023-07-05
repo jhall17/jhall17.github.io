@@ -1,7 +1,7 @@
 extern crate console_error_panic_hook;
 
-use chrono::{DateTime, TimeZone, Utc, FixedOffset};
-use log::{info, Level};
+use chrono::{DateTime, FixedOffset};
+use log::{Level};
 use plotters::prelude::*;
 use plotters_canvas::CanvasBackend;
 use serde::{Deserialize, Serialize};
@@ -47,10 +47,10 @@ impl Chart {
         })
     }
 
-    pub fn benchmarkLine(canvas_id: &str, data_json: JsValue) -> Result<Chart, JsValue> {
+    pub fn benchmark_line(canvas_id: &str, data_json: JsValue) -> Result<Chart, JsValue> {
         let map_coord = draw_benchmark_line(canvas_id, data_json).map_err(|err| err.to_string())?;
         Ok(Chart {
-            convert: Box::new(move |coord| map_coord(coord).map(|(x, y)| (1.0, y.into()))),
+            convert: Box::new(move |coord| map_coord(coord).map(|(_x, y)| (1.0, y.into()))),
         })
     }
 
@@ -137,3 +137,5 @@ fn draw_line2(
     root.present()?;
     Ok(chart.into_coord_trans())
 }
+
+
