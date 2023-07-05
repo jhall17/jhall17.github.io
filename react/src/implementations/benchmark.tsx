@@ -16,7 +16,6 @@ import {
   XyDataSeries,
   NumericAxis,
   DateTimeNumericAxis,
-  SciChartPerformanceOverlay,
   EResamplingMode,
 } from "scichart";
 
