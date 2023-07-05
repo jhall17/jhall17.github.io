@@ -5,6 +5,8 @@ import {
   NumericAxis,
   FastLineRenderableSeries,
   XyDataSeries,
+  RolloverModifier,
+  SciChartJSLightTheme,
 } from "scichart";
 // import stackedBarData from "../data/stackedBar.json";
 // import line1Data from "../data/line1.json";
@@ -16,13 +18,21 @@ import line2Data from "../data/line2.json";
 const DIV_ID = "scichart-div";
 
 const drawLine2 = async () => {
-  const { sciChartSurface, wasmContext } = await SciChartSurface.create(DIV_ID);
+  const { sciChartSurface, wasmContext } = await SciChartSurface.create(
+    DIV_ID,
+    { theme: new SciChartJSLightTheme() }
+  );
 
   const xAxis = new NumericAxis(wasmContext);
   const yAxis = new NumericAxis(wasmContext);
 
   sciChartSurface?.xAxes.add(xAxis);
   sciChartSurface?.yAxes.add(yAxis);
+
+  const rolloverModifier = new RolloverModifier();
+  rolloverModifier.rolloverLineStroke = "SteelBlue";
+  rolloverModifier.showRolloverLine = true;
+  sciChartSurface.chartModifiers.add(rolloverModifier);
 
   Object.entries(line2Data).forEach(([name, xyInfo]) => {
     const xyDataSeries = new XyDataSeries(wasmContext);

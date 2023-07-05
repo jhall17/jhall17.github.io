@@ -29,11 +29,11 @@ const Summary = () => {
         <li>
           <Link to="scichart">SciChart</Link>
         </li>
-        //{" "}
+        {/*
         <li>
-          // <Link to="/perspective">Perspective</Link>
-          //{" "}
+          <Link to="/perspective">Perspective</Link>
         </li>
+        */}
         <li>
           <Link to="/benchmark">Benchmark</Link>
         </li>

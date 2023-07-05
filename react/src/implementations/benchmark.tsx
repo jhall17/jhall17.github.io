@@ -16,6 +16,7 @@ import {
   XyDataSeries,
   NumericAxis,
   DateTimeNumericAxis,
+  RolloverModifier,
 } from "scichart";
 
 type LineGraphProps = {
@@ -121,6 +122,9 @@ const Comparisons: Comparison[] = [
 
       useEffect(() => {
         const chart = Plot.plot({
+          x: {
+            type: "time",
+          },
           marks: [Plot.line(data, { x: "x", y: "y", stroke: "name" })],
         });
 
@@ -157,6 +161,11 @@ const Comparisons: Comparison[] = [
 
         sciChartSurface.xAxes.add(xAxis);
         sciChartSurface.yAxes.add(yAxis);
+
+        const rolloverModifier = new RolloverModifier();
+        rolloverModifier.rolloverLineStroke = "SteelBlue";
+        rolloverModifier.showRolloverLine = true;
+        sciChartSurface.chartModifiers.add(rolloverModifier);
 
         Object.entries(rawData.lines).forEach(([name, yVals]) => {
           const dataSeries = new XyDataSeries(wasmContext, {
