@@ -2,18 +2,18 @@ import fs from "fs";
 import bigJson from "big-json";
 
 const filePaths = {
-  hour: {
-    in: "../alvinHour.json",
-    out: "../alvinHour4Signals.json",
-  },
+  // hour: {
+  //   in: "../alvinHour.json",
+  //   out: "../alvinHour4Signals.json",
+  // },
   day: {
     in: "../alvinDay.json",
     out: "../alvinDay4Signals.json",
   },
-  month: {
-    in: "../alvinMonth.json",
-    out: "../alvinMonth4Signals.json",
-  },
+  // month: {
+  //   in: "../alvinMonth.json",
+  //   out: "../alvinMonth4Signals.json",
+  // },
 };
 
 const extensions = [

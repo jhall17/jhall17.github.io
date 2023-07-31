@@ -17,6 +17,13 @@ import {
   NumericAxis,
   DateTimeNumericAxis,
   EResamplingMode,
+  UpdateSuspender,
+  RolloverModifier,
+  NumberRange,
+  ZoomPanModifier,
+  ZoomExtentsModifier,
+  MouseWheelZoomModifier,
+  CursorModifier,
 } from "scichart";
 
 type LineGraphProps = {
@@ -43,9 +50,7 @@ type RawData = {
 const getPlotlyLineTraces = (rawData: RawData) => {
   const x = rawData["x"];
   const lines = rawData["lines"];
-  let count = 0;
   const traces = Object.values(lines).map((line: number[]) => {
-    count += line.length;
     return {
       x,
       y: line,
@@ -53,8 +58,6 @@ const getPlotlyLineTraces = (rawData: RawData) => {
       mode: "lines",
     };
   });
-  console.log("traces", traces);
-  console.log("datapoint count: ", count);
   return traces;
 };
 
@@ -62,10 +65,14 @@ const Comparisons: Comparison[] = [
   {
     name: "plotly",
     getLineGraph: ({ rawData }) => {
+      const startTime = performance.now();
       return (
         <PlotlyPlot
           data={getPlotlyLineTraces(rawData) as Plotly.Data[]}
           layout={{ width: 800, height: 600 }}
+          onInitialized={() =>
+            console.log(`Time taken: ${performance.now() - startTime}`)
+          }
         />
       );
     },
@@ -73,6 +80,7 @@ const Comparisons: Comparison[] = [
   {
     name: "ChartJS",
     getLineGraph: ({ rawData }) => {
+      const startTime = performance.now();
       ChartJS.register(
         CategoryScale,
         LinearScale,
@@ -94,6 +102,11 @@ const Comparisons: Comparison[] = [
           },
         },
         animation: false,
+        plugins: {
+          tooltip: {
+            enabled: true,
+          },
+        },
       };
       const data = {
         labels: rawData["x"],
@@ -103,7 +116,9 @@ const Comparisons: Comparison[] = [
         })),
       };
       // @ts-ignore
-      return <Line data={data} options={options} />;
+      return (
+        <Line data={data} options={options} onLoad={() => console.log("a")} />
+      );
     },
   },
   {
@@ -148,6 +163,7 @@ const Comparisons: Comparison[] = [
   {
     name: "SciChart",
     getLineGraph: ({ rawData }) => {
+      const startTime = performance.now();
       const [curSurface, setCurSurface] = useState<SciChartSurface>();
       const DIV_ID = "scichart-div";
 
@@ -157,27 +173,39 @@ const Comparisons: Comparison[] = [
         );
 
         const xAxis = new DateTimeNumericAxis(wasmContext);
-        const yAxis = new NumericAxis(wasmContext);
-
-        sciChartSurface.xAxes.add(xAxis);
-        sciChartSurface.yAxes.add(yAxis);
-
-        Object.entries(rawData.lines).forEach(([name, yVals]) => {
-          const dataSeries = new XyDataSeries(wasmContext, {
-            xValues: rawData.x.map((x) => new Date(x).getTime()),
-            yValues: yVals.map((y) => Number(y)),
-            dataSeriesName: name,
-            dataIsSortedInX: true,
-            dataEvenlySpacedInX: true,
-            containsNaN: false,
-          });
-          const lineSeries = new FastLineRenderableSeries(wasmContext, {
-            dataSeries,
-            resamplingMode: EResamplingMode.Auto,
-          });
-          sciChartSurface.renderableSeries.add(lineSeries);
+        const yAxis = new NumericAxis(wasmContext, {
+          visibleRange: new NumberRange(0, 35),
         });
 
+        UpdateSuspender.using(sciChartSurface, () => {
+          sciChartSurface.xAxes.add(xAxis);
+          sciChartSurface.yAxes.add(yAxis);
+
+          Object.entries(rawData.lines).forEach(([name, yVals]) => {
+            const dataSeries = new XyDataSeries(wasmContext, {
+              xValues: rawData.x.map((x) => new Date(x).getTime()),
+              yValues: yVals.map((y) => Number(y)),
+              dataSeriesName: name,
+              dataIsSortedInX: true,
+              dataEvenlySpacedInX: true,
+              containsNaN: false,
+            });
+            const lineSeries = new FastLineRenderableSeries(wasmContext, {
+              dataSeries,
+              resamplingMode: EResamplingMode.Auto,
+            });
+            sciChartSurface.renderableSeries.add(lineSeries);
+            // sciChartSurface.chartModifiers.add(new RolloverModifier());
+            sciChartSurface.chartModifiers.add(new ZoomPanModifier());
+            sciChartSurface.chartModifiers.add(new ZoomExtentsModifier());
+            sciChartSurface.chartModifiers.add(new MouseWheelZoomModifier());
+            sciChartSurface.zoomExtents();
+          });
+        });
+
+        const endTime = performance.now();
+        const timeTaken = endTime - startTime;
+        console.log(`Time taken: ${timeTaken}ms`);
         return { sciChartSurface, wasmContext };
       };
 

@@ -29,15 +29,12 @@ const Summary = () => {
         <li>
           <Link to="scichart">SciChart</Link>
         </li>
-        {/*
         <li>
           <Link to="/perspective">Perspective</Link>
         </li>
-        */}
         <li>
           <Link to="/benchmark">Benchmark</Link>
         </li>
-        {/* 
         <li>
           <Link to="/visx">VisX - no charts</Link>
         </li>
@@ -47,7 +44,6 @@ const Summary = () => {
         <li>
           <Link to="/c3js">C3.js - no charts</Link>
         </li>
-        */}
       </ul>
       <Outlet />
     </>

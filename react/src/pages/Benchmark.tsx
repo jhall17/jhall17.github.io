@@ -1,4 +1,4 @@
-import { Comparison } from "../implementations/benchmark";
+import Comparisons, { Comparison } from "../implementations/benchmark";
 import { parse } from "csv-parse";
 import hourMaxVoltage from "../data/alvinHourMaxVoltage.json";
 import dayMaxVoltage from "../data/alvinDayMaxVoltage.json";
@@ -6,7 +6,7 @@ import monthMaxVoltage from "../data/alvinMonthMaxVoltage.json";
 import hour4Signals from "../data/alvinHour4Signals.json";
 import day4Signals from "../data/alvinDay4Signals.json";
 import month4Signals from "../data/alvinMonth4Signals.json";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 enum SignalCount {
   One = "ONE",
@@ -114,9 +114,11 @@ const Benchmark = ({ comparisons }: BenchmarkProps) => {
   };
 
   useEffect(() => {
-    const lineGraphs = comparisons.map((comparison) => {
-      if (selectedComparisons.includes(comparison.name)) {
-        console.log(comparison.name);
+    const lines = comparisons.map((comparison) => {
+      if (
+        comparison.name !== "SciChart" &&
+        selectedComparisons.includes(comparison.name)
+      ) {
         return (
           <comparison.getLineGraph
             rawData={dataMap[timeInterval][signalCount]}
@@ -127,8 +129,13 @@ const Benchmark = ({ comparisons }: BenchmarkProps) => {
         );
       }
     });
-    setLineGraphs(lineGraphs as JSX.Element[]);
+    setLineGraphs(lines as JSX.Element[]);
   }, [comparisons, selectedComparisons, timeInterval, signalCount]);
+
+  const SciChart = Comparisons[4].getLineGraph;
+  const sciChart = useMemo(() => {
+    return <SciChart rawData={dataMap[timeInterval][signalCount]} />;
+  }, [timeInterval, signalCount]);
 
   return (
     <>
@@ -164,6 +171,7 @@ const Benchmark = ({ comparisons }: BenchmarkProps) => {
         possible as well."
       </blockquote>
       {lineGraphs}
+      {selectedComparisons.includes("SciChart") && sciChart}
       <h3>Upper Bounds</h3>
       <blockquote>
         "I would also like to test any upper bounds on what the graphing library
